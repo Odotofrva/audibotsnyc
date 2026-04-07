@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AudiBots | Audi Community</title>
+  <meta name="description" content="AudiBots is a mobile-first Audi car club site celebrating community builds, videos, photos, and the legacy of Audi." />
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-soft: #0d0d0f;
+      --panel: #121216;
+      --panel-2: #18181e;
+      --line: rgba(255,255,255,0.08);
+      --text: #f5f7fa;
+      --muted: #a8afb8;
+      --silver: #d9dee5;
+      --red: #d5001c;
+      --glow: rgba(213, 0, 28, 0.22);
+      --radius: 22px;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(213,0,28,.12), transparent 28%),
+        linear-gradient(180deg, #060606 0%, #0a0a0d 45%, #050505 100%);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img, svg { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, select { font: inherit; }
+
+    .shell {
+      width: min(100% - 1.2rem, var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(5,5,5,.72);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .9rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+        radial-gradient(circle at 30% 30%, rgba(213,0,28,.45), transparent 45%),
+        #111;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 24px var(--glow);
+      font-size: .82rem;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 2.4rem 0 1.4rem;
+    }
+
+    .hero-card {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+        linear-gradient(135deg, rgba(213,0,28,.12), transparent 40%),
+        var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 1.25rem;
+      padding: 1.15rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      color: var(--silver);
+      border-radius: 999px;
+      padding: .5rem .8rem;
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 12px var(--red);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(2.25rem, 8vw, 4.8rem);
+      line-height: .95;
+      letter-spacing: -.04em;
+      margin-top: 1rem;
+      max-width: 10ch;
+    }
+
+    .hero-copy p {
+      color: var(--muted);
+      margin-top: 1rem;
+      max-width: 62ch;
+      font-size: 1rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-top: 1.25rem;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: #18181e;
+      color: var(--text);
+      padding: .95rem 1.1rem;
+      border-radius: 999px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary {
+      background: linear-gradient(135deg, #c4001a, #ff1b39);
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(213,0,28,.28);
+    }
+
+    .btn.secondary:hover,
+    .btn:hover {
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+
+    .hero-visual,
+    .silhouette-panel {
+      min-height: 320px;
+      border-radius: 22px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,.08), transparent 25%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.5)),
+        linear-gradient(180deg, #15161b 0%, #0b0c10 100%);
+    }
+
+    .hero-visual::after {
+      content: '';
+      position: absolute;
+      inset: auto 1rem 1rem 1rem;
+      height: 90px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(5,5,5,0), rgba(5,5,5,.92));
+    }
+
+    .hero-statbar {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .65rem;
+    }
+
+    .stat {
+      background: rgba(10,10,12,.76);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      padding: .9rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: .15rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    section { padding: 1rem 0 0; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.4rem, 5vw, 2.4rem);
+      letter-spacing: -.03em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 58ch;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)), var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: .5rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: .96rem;
+    }
+
+    .models .model-card {
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      overflow: hidden;
+      position: relative;
+      padding: 0;
+    }
+
+    .models .model-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.82));
+      z-index: 1;
+    }
+
+    .models .model-content {
+      position: relative;
+      z-index: 2;
+      padding: 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: .55rem;
+      padding: .38rem .65rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.08);
+      font-size: .77rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .media-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .media-copy { padding: 1rem; }
+
+    .silhouette-panel {
+      aspect-ratio: 16 / 10;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+    }
+
+    .silhouette-panel svg,
+    .hero-visual svg {
+      width: 88%;
+      height: auto;
+      opacity: .98;
+      filter: drop-shadow(0 0 24px rgba(255,255,255,.07));
+      position: relative;
+      z-index: 1;
+    }
+
+    .silhouette-line {
+      fill: rgba(255,255,255,.05);
+      stroke: rgba(255,255,255,.88);
+      stroke-width: 2.1;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    .silhouette-accent {
+      fill: none;
+      stroke: rgba(213,0,28,.6);
+      stroke-width: 1.1;
+      stroke-dasharray: 8 10;
+    }
+
+    .history {
+      position: relative;
+      padding-left: 1rem;
+    }
+
+    .history::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: .25rem;
+      bottom: .25rem;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(213,0,28,0), rgba(213,0,28,.8), rgba(213,0,28,0));
+    }
+
+    .history-item {
+      padding: .2rem 0 1.1rem 1rem;
+      position: relative;
+    }
+
+    .history-item::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: .38rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 12px rgba(213,0,28,.8);
+    }
+
+    .history-item small {
+      color: var(--silver);
+      display: block;
+      margin-bottom: .35rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .events-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .event-card small {
+      display: inline-block;
+      color: var(--silver);
+      margin-bottom: .45rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .map-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .map-frame {
+      width: 100%;
+      height: 320px;
+      border: 0;
+      display: block;
+      filter: grayscale(1) contrast(1.05) brightness(.9);
+    }
+
+    .map-copy {
+      padding: 1rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .explorer-wrap {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .explorer-panel {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .model-picker {
+      width: 100%;
+      background: #111319;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem;
+      min-height: 54px;
+      outline: none;
+    }
+
+    .spec-card {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .spec-image {
+      aspect-ratio: 16 / 10;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,.08), transparent 25%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.5)),
+        linear-gradient(180deg, #15161b 0%, #0b0c10 100%);
+      display: grid;
+      place-items: center;
+      border-bottom: 1px solid var(--line);
+      padding: 1rem;
+    }
+
+    .spec-image svg {
+      width: 90%;
+      height: auto;
+    }
+
+    .spec-copy { padding: 1rem; }
+
+    .spec-grid {
+      display: grid;
+      gap: .75rem;
+      margin-top: 1rem;
+    }
+
+    .spec-item {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.02);
+      padding: .9rem;
+    }
+
+    .spec-item span {
+      display: block;
+      color: var(--silver);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-size: .72rem;
+      margin-bottom: .25rem;
+    }
+
+    .spec-item strong { font-size: 1rem; }
+
+    .join-box {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(213,0,28,.22), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+        var(--panel-2);
+      text-align: center;
+      padding: 1.4rem;
+    }
+
+    .join-box p {
+      margin-top: .75rem;
+      color: var(--muted);
+      max-width: 54ch;
+      margin-inline: auto;
+    }
+
+    .join-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .ig-popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .28s ease;
+    }
+
+    .ig-popup.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ig-popup-card {
+      width: min(100%, 420px);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)), var(--panel-2);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 28px;
+      padding: 1.25rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      text-align: center;
+      transform: translateY(14px) scale(.98);
+      transition: transform .28s ease;
+    }
+
+    .ig-popup.show .ig-popup-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .popup-badge {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto .9rem;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,.08);
+      background: radial-gradient(circle at 30% 30%, rgba(213,0,28,.4), transparent 55%), #111;
+      box-shadow: 0 0 28px rgba(213,0,28,.24);
+    }
+
+    .ig-popup-card p {
+      color: var(--muted);
+      margin-top: .65rem;
+    }
+
+    .popup-actions {
+      display: flex;
+      gap: .75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    footer {
+      padding: 2rem 0 2.4rem;
+      color: var(--muted);
+    }
+
+    .footer-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      border-top: 1px solid var(--line);
+      padding-top: 1.15rem;
+      text-align: center;
+    }
+
+    .footer-wrap strong { color: var(--text); }
+
+    @media (min-width: 720px) {
+      .nav-links { display: flex; }
+      .hero-grid { grid-template-columns: 1.05fr .95fr; padding: 1.4rem; align-items: stretch; }
+      .grid.two { grid-template-columns: repeat(2, 1fr); }
+      .grid.three { grid-template-columns: repeat(3, 1fr); }
+      .events-grid { grid-template-columns: 1fr 1fr; }
+      .explorer-wrap { grid-template-columns: .9fr 1.1fr; align-items: start; }
+      .spec-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-wrap {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+      }
+    }
+
+    @media (min-width: 980px) {
+      .hero { padding-top: 2.8rem; }
+      .hero-visual { min-height: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ig-popup show" id="igPopup" aria-hidden="false">
+    <div class="ig-popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+      <div class="popup-badge">IG</div>
+      <h2 id="popupTitle">Follow AudiBots on Instagram</h2>
+      <p>
+        Stay tapped in with upcoming meets, fresh member features, rolling clips, and new AudiBots drops. Add your Instagram link later where needed.
+      </p>
+      <div class="popup-actions">
+        <a href="#" class="btn primary">Follow on IG</a>
+        <button class="btn secondary" id="closePopup" type="button">Enter Site</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <div class="shell nav">
+      <a href="#top" class="brand" aria-label="AudiBots home">
+        <div class="brand-mark">AB</div>
+        <span>AudiBots</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#models">Cars</a>
+        <a href="#explorer">Explorer</a>
+        <a href="#media">Media</a>
+        <a href="#events">Events</a>
+        <a href="#history">History</a>
+        <a href="#join">Join</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="shell hero-card">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow"><span class="dot"></span> Mobile-First Audi Club</span>
+            <h1>Driven by Audi culture. Built for the community.</h1>
+            <p>
+              AudiBots is a digital home for Audi lovers, builders, photographers, and drivers who want to celebrate the machines, the people behind the wheel, and the deeper story behind the culture. What started from personal passion has grown into a bigger vision centered on innovation, education, and a positive lifestyle through cars and community.
+            </p>
+            <div class="hero-actions">
+              <a href="#join" class="btn primary">Join the Club</a>
+              <a href="#media" class="btn">Explore Media</a>
+            </div>
+          </div>
+
+          <div class="hero-visual" role="img" aria-label="Audi silhouette showcase image">
+            <svg viewBox="0 0 900 360" aria-hidden="true">
+              <path class="silhouette-accent" d="M110 255 H790"/>
+              <path class="silhouette-line" d="M80 250 L130 248 C152 230 188 204 252 190 C320 176 390 164 448 160 C520 155 597 165 658 184 C709 200 754 226 794 247 L848 252 C856 252 864 258 866 268 C868 280 860 290 848 290 L808 290 C800 318 778 336 745 336 C710 336 686 318 680 290 L250 290 C243 318 220 336 186 336 C150 336 126 318 120 290 L88 290 C73 290 62 280 64 266 C66 256 72 250 80 250 Z" />
+              <circle class="silhouette-line" cx="186" cy="289" r="38" />
+              <circle class="silhouette-line" cx="744" cy="289" r="38" />
+              <path class="silhouette-line" d="M246 190 C285 148 331 122 403 112 C500 98 578 111 642 148 C675 167 706 198 718 218 L600 215 C582 196 557 183 516 178 L396 178 C354 181 318 192 286 214 L190 219 C202 207 223 196 246 190 Z" />
+            </svg>
+            <div class="hero-statbar">
+              <div class="stat">
+                <strong>Cars</strong>
+                <span>Showcasing community builds</span>
+              </div>
+              <div class="stat">
+                <strong>Media</strong>
+                <span>Videos, photos, and reels</span>
+              </div>
+              <div class="stat">
+                <strong>Legacy</strong>
+                <span>History, resilience, and growth</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="models">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>Featured Audi categories</h2>
+            <p>Explore the different sides of the Audi scene, from the cars that started everyday passion projects to the performance builds and utility models that continue to shape the community.</p>
+          </div>
+        </div>
+
+        <div class="grid three models">
+          <article class="card model-card">
+            <div class="silhouette-panel" aria-hidden="true">
+              <svg viewBox="0 0 900 360">
+                <path class="silhouette-line" d="M94 254 L148 252 C174 224 219 197 285 184 C362 168 465 162 544 169 C617 176 697 201 750 238 L812 248 C823 249 834 259 835 271 C836 283 826 292 813 292 L780 292 C771 318 748 337 716 337 C682 337 657 319 651 292 L258 292 C250 318 228 337 194 337 C160 337 136 319 130 292 L96 292 C82 292 71 283 73 270 C75 259 84 254 94 254 Z"/>
+                <circle class="silhouette-line" cx="194" cy="291" r="37"/>
+                <circle class="silhouette-line" cx="716" cy="291" r="37"/>
+                <path class="silhouette-line" d="M296 184 C327 146 375 122 444 113 C528 102 615 117 672 150 C705 169 728 190 742 212 L615 208 C594 189 567 179 525 175 L419 175 C373 179 334 189 296 184 Z"/>
+              </svg>
+            </div>
+            <div class="model-content">
+              <span class="tag">Sedans</span>
+              <h3>A &amp; S Series</h3>
+              <p>From daily-driven A models to sharper S builds, this side of the Audi world represents the cars many owners learn on, maintain, and grow with over time.</p>
+            </div>
+          </article>
+
+          <article class="card model-card">
+            <div class="silhouette-panel" aria-hidden="true">
+              <svg viewBox="0 0 900 360">
+                <path class="silhouette-line" d="M78 258 L144 255 C181 223 238 198 312 185 C388 171 481 163 559 171 C636 179 723 207 795 250 L836 255 C851 257 860 267 861 278 C862 288 852 296 840 296 L796 296 C788 323 764 341 731 341 C695 341 671 323 664 296 L254 296 C246 323 222 341 188 341 C153 341 129 323 123 296 L84 296 C68 296 57 286 59 273 C61 263 69 258 78 258 Z"/>
+                <circle class="silhouette-line" cx="188" cy="295" r="38"/>
+                <circle class="silhouette-line" cx="731" cy="295" r="38"/>
+                <path class="silhouette-line" d="M310 185 C350 145 401 121 488 114 C575 108 641 127 699 165 C729 184 753 208 768 226 L646 222 C623 201 593 190 545 187 L432 187 C389 189 347 194 310 185 Z"/>
+              </svg>
+            </div>
+            <div class="model-content">
+              <span class="tag">Performance</span>
+              <h3>RS Line</h3>
+              <p>Built for those who admire stronger performance, sharper styling, and the kind of machines that push Audi enthusiasm into a more serious lane.</p>
+            </div>
+          </article>
+
+          <article class="card model-card">
+            <div class="silhouette-panel" aria-hidden="true">
+              <svg viewBox="0 0 900 360">
+                <path class="silhouette-line" d="M72 253 L123 251 C152 214 212 188 301 176 C391 164 505 162 595 174 C688 186 770 221 820 248 L845 251 C858 252 868 262 869 275 C870 287 861 297 847 297 L807 297 C799 324 775 343 741 343 C706 343 682 325 676 297 L242 297 C235 324 211 343 176 343 C141 343 117 325 110 297 L77 297 C62 297 52 287 54 274 C56 262 64 253 72 253 Z"/>
+                <circle class="silhouette-line" cx="176" cy="296" r="39"/>
+                <circle class="silhouette-line" cx="741" cy="296" r="39"/>
+                <path class="silhouette-line" d="M286 177 C329 136 390 116 476 112 C570 108 650 127 711 166 C736 182 758 201 776 224 L638 220 C621 200 592 189 542 185 L430 185 C372 186 325 181 286 177 Z"/>
+              </svg>
+            </div>
+            <div class="model-content">
+              <span class="tag">Utility</span>
+              <h3>Q Series</h3>
+              <p>These are the practical and versatile Audi models that still carry the same design language, comfort, and pride while fitting everyday life and bigger goals.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="explorer">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>Audi model explorer</h2>
+            <p>Let visitors choose an Audi model to get a quick visual and a clean set of specs without needing to sort by year.</p>
+          </div>
+        </div>
+
+        <div class="explorer-wrap">
+          <article class="card explorer-panel">
+            <div>
+              <h3>Choose a model</h3>
+              <p>Select a model line to preview a silhouette and a simplified spec overview so visitors can better understand the Audi family and discover which model speaks to them most.</p>
+            </div>
+
+            <label for="modelSelect" class="tag" style="width:fit-content;">Audi Models</label>
+            <select id="modelSelect" class="model-picker" aria-label="Choose an Audi model">
+              <option value="A3">A3</option>
+              <option value="A4" selected>A4</option>
+              <option value="A6">A6</option>
+              <option value="A8">A8</option>
+              <option value="Q5">Q5</option>
+              <option value="Q7">Q7</option>
+              <option value="TT">TT</option>
+              <option value="R8">R8</option>
+            </select>
+
+            <p>
+              This section helps new supporters, future owners, and longtime enthusiasts quickly understand the Audi lineup. Over time, it can grow into a stronger knowledge base with deeper specs, trims, member builds, and owner-submitted stories.
+            </p>
+          </article>
+
+          <article class="card spec-card">
+            <div class="spec-image" id="specImage" aria-hidden="true"></div>
+            <div class="spec-copy">
+              <span class="tag" id="specTag">Sedan</span>
+              <h3 id="specTitle">Audi A4</h3>
+              <p id="specDesc">A balanced Audi sedan known for daily comfort, understated luxury, and a clean entry point into the brand’s signature design language.</p>
+
+              <div class="spec-grid">
+                <div class="spec-item">
+                  <span>Body Style</span>
+                  <strong id="specBody">Compact luxury sedan</strong>
+                </div>
+                <div class="spec-item">
+                  <span>Drive Feel</span>
+                  <strong id="specDrive">Balanced and refined</strong>
+                </div>
+                <div class="spec-item">
+                  <span>Community Appeal</span>
+                  <strong id="specAppeal">Daily build favorite</strong>
+                </div>
+                <div class="spec-item">
+                  <span>Known For</span>
+                  <strong id="specKnown">Clean styling and comfort</strong>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="media">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>Videos and photo culture</h2>
+            <p>Use this section to spotlight the energy of AudiBots through meet recaps, rolling shots, cinematic edits, owner interviews, and the real moments that make the community feel alive.</p>
+          </div>
+        </div>
+
+        <div class="grid three">
+          <article class="card media-card">
+            <div class="silhouette-panel" aria-hidden="true">
+              <svg viewBox="0 0 900 360">
+                <path class="silhouette-line" d="M86 258 L138 256 C171 223 231 198 302 188 C375 177 466 171 548 177 C629 183 708 207 783 246 L821 253 C834 255 842 263 844 274 C846 286 836 295 824 295 L783 295 C776 321 752 340 719 340 C683 340 659 321 654 295 L251 295 C244 321 220 340 186 340 C151 340 127 321 120 295 L89 295 C75 295 65 286 66 275 C67 264 77 258 86 258 Z"/>
+                <circle class="silhouette-line" cx="186" cy="294" r="38"/>
+                <circle class="silhouette-line" cx="719" cy="294" r="38"/>
+                <path class="silhouette-accent" d="M122 246 C302 225 585 218 793 244"/>
+              </svg>
+            </div>
+            <div class="media-copy">
+              <h3>Community Gallery</h3>
+              <p>Build a visual archive of the community through curated club graphics, member ride features, and photo drops that help tell the story of AudiBots through design and presence.</p>
+            </div>
+          </article>
+
+          <article class="card media-card">
+            <div class="silhouette-panel" aria-hidden="true">
+              <svg viewBox="0 0 900 360">
+                <path class="silhouette-line" d="M100 250 L155 248 C187 214 244 190 322 180 C396 171 494 167 583 176 C659 184 725 205 790 238 L835 246 C848 248 857 258 858 270 C859 282 850 292 837 292 L798 292 C790 319 768 337 734 337 C699 337 676 319 669 292 L263 292 C256 319 233 337 198 337 C163 337 139 319 133 292 L102 292 C87 292 76 282 78 269 C80 258 90 250 100 250 Z"/>
+                <circle class="silhouette-line" cx="198" cy="291" r="38"/>
+                <circle class="silhouette-line" cx="734" cy="291" r="38"/>
+                <path class="silhouette-accent" d="M180 154 L180 218 M240 154 L240 206 M300 154 L300 196"/>
+              </svg>
+            </div>
+            <div class="media-copy">
+              <h3>Featured Videos</h3>
+              <p>Use video to show the lifestyle behind the builds, from cruising clips and maintenance sessions to conversations around innovation, tools, and what the cars mean to the people behind them.</p>
+            </div>
+          </article>
+
+          <article class="card media-card">
+            <div class="silhouette-panel" aria-hidden="true">
+              <svg viewBox="0 0 900 360">
+                <path class="silhouette-line" d="M84 255 L132 253 C163 218 225 192 307 180 C395 168 502 166 596 176 C687 186 772 219 822 248 L847 252 C860 254 868 263 869 275 C870 287 861 296 848 296 L807 296 C799 323 775 342 740 342 C705 342 680 323 674 296 L248 296 C240 323 216 342 181 342 C146 342 121 323 115 296 L82 296 C67 296 56 286 58 273 C60 262 74 255 84 255 Z"/>
+                <circle class="silhouette-line" cx="181" cy="295" r="39"/>
+                <circle class="silhouette-line" cx="740" cy="295" r="39"/>
+                <path class="silhouette-accent" d="M124 130 H778 M124 154 H778 M124 178 H778"/>
+              </svg>
+            </div>
+            <div class="media-copy">
+              <h3>Meet Coverage</h3>
+              <p>Feature the movement of the club through local hangouts, meetup coverage, city drives, and the everyday moments that turn a car community into something lasting.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="events">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>Car meet events</h2>
+            <p>Use this section to organize AudiBots meetups, cruise nights, parking deck linkups, and positive community-centered events that bring together car culture, tech, and real connection.</p>
+          </div>
+        </div>
+
+        <div class="events-grid">
+          <article class="card event-card">
+            <small>Monthly Meet</small>
+            <h3>Night Cruise Rollout</h3>
+            <p>A recurring evening meetup designed for members to connect, line up their builds, capture content, and enjoy the kind of relaxed but intentional energy that keeps the scene growing.</p>
+          </article>
+
+          <article class="card event-card">
+            <small>Weekend Linkup</small>
+            <h3>Cars, Coffee, and Content</h3>
+            <p>A weekend gathering built around conversation, photography, and collaboration, giving members a chance to connect in person while creating new content for the AudiBots platform.</p>
+          </article>
+
+          <article class="card event-card">
+            <small>Special Drop</small>
+            <h3>Feature Build Showcase</h3>
+            <p>A focused event built around one featured Audi and the person behind it, giving the community a chance to hear the story, the lessons, and the passion behind the build.</p>
+          </article>
+
+          <article class="card map-card">
+            <iframe
+              class="map-frame"
+              title="AudiBots typical hangout locations map"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-74.081%2C40.677%2C-73.856%2C40.809&layer=mapnik&marker=40.743%2C-73.935">
+            </iframe>
+            <div class="map-copy">
+              <h3>Typical AudiBots hangout zone</h3>
+              <p>This map can guide members toward the areas AudiBots typically moves through in the city, helping people find the culture, the motion, and the places where the club naturally connects.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="history">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <h2>The AudiBots story</h2>
+            <p>Share the origin of the club, the hardships that shaped it, and the renewed vision behind building something stronger in New York City through cars, innovation, and positive community.</p>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <article class="card history">
+            <div class="history-item">
+              <small>2017 Beginning</small>
+              <h3>Where AudiBots started</h3>
+              <p>AudiBots began in 2017 when I had my Audi A5. I drove it everywhere and built a real connection with the car through experience, curiosity, and the desire to understand it beyond just driving.</p>
+            </div>
+            <div class="history-item">
+              <small>Hands-On Learning</small>
+              <h3>Passion turned into maintenance and diagnostics</h3>
+              <p>That passion pushed me to learn how to handle much of the maintenance myself. Over time, I also created OBD-based systems to diagnose the cars, blending automotive culture with technical problem-solving and self-taught innovation.</p>
+            </div>
+            <div class="history-item">
+              <small>Hurricane Helene</small>
+              <h3>When the community took a major hit</h3>
+              <p>That momentum was deeply disrupted after Hurricane Helene, when major flooding damaged vehicles and impacted many people connected to the community. What had been built started to fall apart under circumstances far bigger than cars alone.</p>
+            </div>
+            <div class="history-item">
+              <small>New York City Chapter</small>
+              <h3>Rebuilding with a bigger purpose</h3>
+              <p>Now in NYC, the goal is to push AudiBots in a greater direction by merging community, innovation, technology, and car culture into something uplifting. It is about building a stronger network, inspiring positive lifestyle choices, and showing that passion can evolve into real impact.</p>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Why AudiBots exists</h3>
+            <p>
+              AudiBots exists to bring people together through a shared love for Audi while opening the door to something deeper than just showing cars. It is about learning, building, creating, and pushing the culture forward through knowledge, resilience, and positive community energy.
+            </p>
+            <div style="height:1rem"></div>
+            <h3>The direction ahead</h3>
+            <p>
+              The next chapter for AudiBots is focused on deeper member spotlights, stronger event experiences, educational tech around diagnostics and builds, and a digital platform that reflects the future of a smarter, more connected car community in New York City.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="join">
+      <div class="shell">
+        <div class="card join-box">
+          <h2>Join AudiBots</h2>
+          <p>
+            Whether you are an owner, supporter, builder, or creative, AudiBots is a place to connect through cars, technology, and forward movement. Join the next chapter and help shape a community built on passion, resilience, and positive growth.
+          </p>
+          <div class="join-actions">
+            <a href="mailto:hello@example.com?subject=AudiBots%20Membership" class="btn primary">Submit Your Audi</a>
+            <a href="#top" class="btn">Back to Top</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-wrap">
+      <p><strong>AudiBots</strong> — A mobile-first community experience for Audi culture.</p>
+      <p>Powered by <strong>RoboTechi</strong></p>
+    </div>
+  </footer>
+
+  <script>
+    const popup = document.getElementById('igPopup');
+    const closePopup = document.getElementById('closePopup');
+    const modelSelect = document.getElementById('modelSelect');
+    const specTag = document.getElementById('specTag');
+    const specTitle = document.getElementById('specTitle');
+    const specDesc = document.getElementById('specDesc');
+    const specBody = document.getElementById('specBody');
+    const specDrive = document.getElementById('specDrive');
+    const specAppeal = document.getElementById('specAppeal');
+    const specKnown = document.getElementById('specKnown');
+    const specImage = document.getElementById('specImage');
+
+    const silhouettes = {
+      sedan: `
+        <svg viewBox="0 0 900 360">
+          <path class="silhouette-line" d="M94 254 L148 252 C174 224 219 197 285 184 C362 168 465 162 544 169 C617 176 697 201 750 238 L812 248 C823 249 834 259 835 271 C836 283 826 292 813 292 L780 292 C771 318 748 337 716 337 C682 337 657 319 651 292 L258 292 C250 318 228 337 194 337 C160 337 136 319 130 292 L96 292 C82 292 71 283 73 270 C75 259 84 254 94 254 Z"></path>
+          <circle class="silhouette-line" cx="194" cy="291" r="37"></circle>
+          <circle class="silhouette-line" cx="716" cy="291" r="37"></circle>
+          <path class="silhouette-line" d="M296 184 C327 146 375 122 444 113 C528 102 615 117 672 150 C705 169 728 190 742 212 L615 208 C594 189 567 179 525 175 L419 175 C373 179 334 189 296 184 Z"></path>
+        </svg>`,
+      suv: `
+        <svg viewBox="0 0 900 360">
+          <path class="silhouette-line" d="M72 253 L123 251 C152 214 212 188 301 176 C391 164 505 162 595 174 C688 186 770 221 820 248 L845 251 C858 252 868 262 869 275 C870 287 861 297 847 297 L807 297 C799 324 775 343 741 343 C706 343 682 325 676 297 L242 297 C235 324 211 343 176 343 C141 343 117 325 110 297 L77 297 C62 297 52 287 54 274 C56 262 64 253 72 253 Z"></path>
+          <circle class="silhouette-line" cx="176" cy="296" r="39"></circle>
+          <circle class="silhouette-line" cx="741" cy="296" r="39"></circle>
+          <path class="silhouette-line" d="M286 177 C329 136 390 116 476 112 C570 108 650 127 711 166 C736 182 758 201 776 224 L638 220 C621 200 592 189 542 185 L430 185 C372 186 325 181 286 177 Z"></path>
+        </svg>`,
+      sport: `
+        <svg viewBox="0 0 900 360">
+          <path class="silhouette-line" d="M78 258 L144 255 C181 223 238 198 312 185 C388 171 481 163 559 171 C636 179 723 207 795 250 L836 255 C851 257 860 267 861 278 C862 288 852 296 840 296 L796 296 C788 323 764 341 731 341 C695 341 671 323 664 296 L254 296 C246 323 222 341 188 341 C153 341 129 323 123 296 L84 296 C68 296 57 286 59 273 C61 263 69 258 78 258 Z"></path>
+          <circle class="silhouette-line" cx="188" cy="295" r="38"></circle>
+          <circle class="silhouette-line" cx="731" cy="295" r="38"></circle>
+          <path class="silhouette-line" d="M310 185 C350 145 401 121 488 114 C575 108 641 127 699 165 C729 184 753 208 768 226 L646 222 C623 201 593 190 545 187 L432 187 C389 189 347 194 310 185 Z"></path>
+        </svg>`
+    };
+
+    const modelData = {
+      A3: {
+        tag: 'Sedan',
+        title: 'Audi A3',
+        desc: 'A compact Audi that blends clean styling, approachable luxury, and city-friendly size for newer members entering the brand.',
+        body: 'Compact luxury sedan',
+        drive: 'Nimble and efficient',
+        appeal: 'Entry point favorite',
+        known: 'Compact premium feel',
+        silhouette: 'sedan'
+      },
+      A4: {
+        tag: 'Sedan',
+        title: 'Audi A4',
+        desc: 'A balanced Audi sedan known for daily comfort, understated luxury, and a clean entry point into the brand’s signature design language.',
+        body: 'Compact luxury sedan',
+        drive: 'Balanced and refined',
+        appeal: 'Daily build favorite',
+        known: 'Clean styling and comfort',
+        silhouette: 'sedan'
+      },
+      A6: {
+        tag: 'Executive',
+        title: 'Audi A6',
+        desc: 'A larger executive-focused Audi sedan with a more upscale road presence, stronger comfort appeal, and a polished cabin experience.',
+        body: 'Midsize luxury sedan',
+        drive: 'Smooth and composed',
+        appeal: 'Luxury cruiser',
+        known: 'Executive comfort',
+        silhouette: 'sedan'
+      },
+      A8: {
+        tag: 'Flagship',
+        title: 'Audi A8',
+        desc: 'Audi’s flagship sedan brings top-tier comfort, prestige, and a sleek design language for members who love refined luxury.',
+        body: 'Full-size luxury sedan',
+        drive: 'Premium and effortless',
+        appeal: 'High-end statement build',
+        known: 'Flagship luxury presence',
+        silhouette: 'sedan'
+      },
+      Q5: {
+        tag: 'SUV',
+        title: 'Audi Q5',
+        desc: 'A versatile Audi SUV that balances family use, road-trip comfort, and modern luxury, making it one of the most approachable Q models.',
+        body: 'Compact luxury SUV',
+        drive: 'Comfortable and versatile',
+        appeal: 'Daily SUV favorite',
+        known: 'Utility with style',
+        silhouette: 'suv'
+      },
+      Q7: {
+        tag: 'SUV',
+        title: 'Audi Q7',
+        desc: 'A larger Audi SUV with commanding road presence, spacious practicality, and a polished luxury feel for bigger lifestyle needs.',
+        body: 'Three-row luxury SUV',
+        drive: 'Stable and substantial',
+        appeal: 'Family and road-trip build',
+        known: 'Size and comfort',
+        silhouette: 'suv'
+      },
+      TT: {
+        tag: 'Sport Coupe',
+        title: 'Audi TT',
+        desc: 'A sporty and instantly recognizable Audi coupe that brings compact performance energy and standout design into the community.',
+        body: 'Sport coupe',
+        drive: 'Sharp and playful',
+        appeal: 'Stylish enthusiast pick',
+        known: 'Iconic compact coupe shape',
+        silhouette: 'sport'
+      },
+      R8: {
+        tag: 'Supercar',
+        title: 'Audi R8',
+        desc: 'Audi’s halo performance machine, built for members who admire exotic styling, serious speed, and top-level road presence.',
+        body: 'Mid-engine supercar',
+        drive: 'High-performance and dramatic',
+        appeal: 'Dream car centerpiece',
+        known: 'Supercar design and presence',
+        silhouette: 'sport'
+      }
+    };
+
+    function updateModelSpecs(model) {
+      const data = modelData[model];
+      if (!data) return;
+      specTag.textContent = data.tag;
+      specTitle.textContent = data.title;
+      specDesc.textContent = data.desc;
+      specBody.textContent = data.body;
+      specDrive.textContent = data.drive;
+      specAppeal.textContent = data.appeal;
+      specKnown.textContent = data.known;
+      specImage.innerHTML = silhouettes[data.silhouette];
+    }
+
+    closePopup.addEventListener('click', () => {
+      popup.classList.remove('show');
+      popup.setAttribute('aria-hidden', 'true');
+    });
+
+    popup.addEventListener('click', (event) => {
+      if (event.target === popup) {
+        popup.classList.remove('show');
+        popup.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    modelSelect.addEventListener('change', (event) => {
+      updateModelSpecs(event.target.value);
+    });
+
+    updateModelSpecs(modelSelect.value);
+  </script>
+</body>
+</html>
